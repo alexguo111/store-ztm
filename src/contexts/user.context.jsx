@@ -1,9 +1,10 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { onAuthStateChangedListener, createUserDocumentFromAuth, signOutUser } from "../utils/firebase/firebase.utils";
+import { ProductContext } from "./product.context";
 
 export const UserContext = createContext({
-    currentUser: null,
-    setCurrentUser: () => { },
+    // currentUser: null,
+    // setCurrentUser: () => { },
 });
 
 
