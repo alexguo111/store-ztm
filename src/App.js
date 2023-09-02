@@ -8,6 +8,7 @@ const Shop = () => {
 }
 
 const App = () => {
+  console.log("APP");
   return (
     <Routes>
       <Route path='/' element={<Navigation />}>

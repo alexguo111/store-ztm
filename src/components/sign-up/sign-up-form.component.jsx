@@ -8,8 +8,10 @@ const defaultFormFields = { displayName: "", email: "", password: "", confirmPas
 
 const SignUpForm = () => {
 
+    console.log("SIGN UPPPPPP FORM");
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
+
 
     const handleChange = event => {
         const { name, value } = event.target;
@@ -25,8 +27,10 @@ const SignUpForm = () => {
         event.preventDefault();
 
         try {
+            console.log("saldfkjalsdfjasldfalsdfkjaslkdfajsldfka");
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
-            const userDocRef = await createUserDocumentFromAuth(user, { displayName });
+            console.log("111111111");
+            await createUserDocumentFromAuth(user, { displayName });
             resetFormFields();
         } catch (e) {
             console.log(e);
