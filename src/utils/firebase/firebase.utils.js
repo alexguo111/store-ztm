@@ -12,9 +12,18 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
-    confirmPasswordReset
+    confirmPasswordReset,
 } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    collection,
+    writeBatch,
+    query,
+    getDocs
+} from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -40,10 +49,8 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider)
 export const db = getFirestore()
 
 export const createUserDocumentFromAuth = async (userAuth, name = {}) => {
-    console.log("FROM AUTH->");
     if (!userAuth) return;
     const userDocRef = doc(db, 'users', userAuth.uid);
-    console.log("USERAUTH->", userAuth);
     const userSnapshot = await getDoc(userDocRef);
 
     if (!userSnapshot.exists()) {
@@ -78,4 +85,31 @@ export const signOutUser = async () => {
 
 export const onAuthStateChangedListener = (callback) => {
     return onAuthStateChanged(auth, callback);
+}
+
+
+// upload data to firestore
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+    objectsToAdd.forEach(obj => {
+        const docRef = doc(collectionRef, obj.title.toLowerCase());
+        batch.set(docRef, obj)
+    })
+    await batch.commit();
+    console.log("Done");
+}
+
+// Retrieve data from firebase
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+
+    const querySnapShot = await getDocs(q);
+    const categoryMap = querySnapShot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {})
+    return categoryMap;
 }

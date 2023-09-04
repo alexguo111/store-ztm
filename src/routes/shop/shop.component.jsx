@@ -1,20 +1,30 @@
-import { useContext } from 'react';
-import { ProductContext } from '../../contexts/product.context';
+import { Fragment, useContext } from 'react';
 import ProductCard from '../../components/product-card/product-card.component';
+import { CategoriesContext } from '../../contexts/categories.context';
+import { Link } from 'react-router-dom';
 import './shop.styles.scss'
 
+
+
 const Shop = () => {
-    console.log("Shopppppppppp!!!!!!!");
-    const { products } = useContext(ProductContext)
-    console.log("Products->", products);
+    const { categoriesMap } = useContext(CategoriesContext)
     return (
-        <div className='products-container'>
+        <Fragment>
             {
-                products.map(product => (
-                    <ProductCard key={product.id} product={product} />
+                Object.keys(categoriesMap).map(title => (
+                    <Fragment key={title}>
+                        <h2><Link className="nav-link" to={`/shop/${title}`}>{title.toUpperCase()}</Link></h2>
+                        <div className='products-container'>
+                            {categoriesMap[title]
+                                .filter((item, idx) => idx < 4)
+                                .map(product => (
+                                    <ProductCard key={product.id} product={product} />))
+                            }
+                        </div>
+                    </Fragment>
                 ))
             }
-        </div>
+        </Fragment>
     )
 }
 
