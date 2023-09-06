@@ -4,6 +4,7 @@ import FormInput from "../form-inut/form-input.component";
 // import './sign-up-form.styles.scss'
 import Button from "../button/button.component";
 import { SignupContainer } from "./sign-up-form.styles";
+import Test from "./Test";
 
 const defaultFormFields = { displayName: "", email: "", password: "", confirmPassword: "" };
 
