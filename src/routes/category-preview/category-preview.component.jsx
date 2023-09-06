@@ -1,8 +1,8 @@
-import './category-preview.styles.scss'
+// import './category-preview.styles.scss'
 import { Fragment, useContext } from 'react';
 import ProductCard from "../../components/product-card/product-card.component";
 import { CategoriesContext } from '../../contexts/categories.context';
-import { Link } from 'react-router-dom';
+import { CategoryPreviewContainer, Preview, Title } from './category-preview.styles';
 
 const CategoryPreview = () => {
     const { categoriesMap } = useContext(CategoriesContext)
@@ -10,16 +10,16 @@ const CategoryPreview = () => {
         <Fragment>
             {
                 Object.keys(categoriesMap).map(title => (
-                    <div className='category-preview-container' key={title}>
-                        <h2><Link className="title" to={title}>{title.toUpperCase()}</Link></h2>
-                        <div className='preview'>
+                    <CategoryPreviewContainer key={title}>
+                        <h2><Title to={title}>{title.toUpperCase()}</Title></h2>
+                        <Preview>
                             {categoriesMap[title]
                                 .filter((item, idx) => idx < 4)
                                 .map(product => (
                                     <ProductCard key={product.id} product={product} />))
                             }
-                        </div>
-                    </div>
+                        </Preview>
+                    </CategoryPreviewContainer>
                 ))
             }
         </Fragment>

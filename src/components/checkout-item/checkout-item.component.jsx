@@ -2,6 +2,9 @@ import { useContext } from "react";
 import { DropdownContext } from "../../contexts/dropdown.context";
 import './checkout-item.styles.scss'
 
+import { CheckoutItemContainer, ImageContainer, RemoveButton, BaseSpan, QuantitySpan } from "./checkout-item.styles";
+
+
 const CheckoutItem = ({ item }) => {
 
     const { name, imageUrl, price, cnt } = item;
@@ -11,19 +14,19 @@ const CheckoutItem = ({ item }) => {
     const deleteItem = () => deleteFromCart(item);
 
     return (
-        <div className="checkout-item-container">
-            <div className="image-container">
+        <CheckoutItemContainer>
+            <ImageContainer>
                 <img src={imageUrl} alt={`${name}`} />
-            </div>
-            <span className="name">{name}</span>
-            <span className="quantity">
+            </ImageContainer>
+            <BaseSpan>{name}</BaseSpan>
+            <QuantitySpan>
                 <div className="arrow" onClick={reduceItem}>&#10094;</div>
                 <span className="value">{cnt}</span>
                 <div className="arrow" onClick={addItem}>&#10095;</div>
-            </span>
-            <span className="price">{price}</span>
-            <div className="remove-button" onClick={deleteItem}>&#10005;</div>
-        </div>
+            </QuantitySpan>
+            <BaseSpan>{price}</BaseSpan>
+            <RemoveButton onClick={deleteItem}>&#10005;</RemoveButton>
+        </CheckoutItemContainer>
     )
 }
 
